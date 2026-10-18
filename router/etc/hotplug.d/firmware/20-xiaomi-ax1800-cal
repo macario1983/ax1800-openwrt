@@ -1,0 +1,9 @@
+#!/bin/sh
+[ "$FIRMWARE" = "ath11k/IPQ6018/hw1.0/cal-ahb-c000000.wifi.bin" ] || return 0
+[ -s /lib/firmware/ath11k/IPQ6018/hw1.0/cal-ahb-c000000.wifi.bin ] && return 0
+. /lib/functions/caldata.sh 2>/dev/null
+case "$(cat /tmp/sysinfo/board_name 2>/dev/null)" in
+	xiaomi,ax1800|redmi,ax1800)
+		caldata_extract "0:ART" 0x1000 0x10000
+		;;
+esac

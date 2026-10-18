@@ -1,0 +1,10 @@
+#!/bin/sh
+# 99-fixsrc: (1) src 31.1 p/ rede 31.x, (2) default via STA, (3) rota /32 do Mac via STA
+[ "$ACTION" = "ifup" ] || exit 0
+case "$INTERFACE" in wwan|lan) ;; *) exit 0;; esac
+( sleep 3
+  ip rule show | grep -q 'to 192.168.31.0/24 lookup main' || ip rule add to 192.168.31.0/24 lookup main pref 1 2>/dev/null
+  ip route del default via 192.168.1.1 dev br-lan 2>/dev/null
+  ip route replace default via 192.168.1.1 dev phy0-sta0 2>/dev/null
+  ip route replace 192.168.1.100/32 dev phy0-sta0 2>/dev/null
+) &

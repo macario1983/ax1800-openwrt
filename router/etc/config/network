@@ -1,0 +1,41 @@
+config interface 'loopback'
+	option device 'lo'
+	option proto 'static'
+	list ipaddr '127.0.0.1/8'
+
+config globals 'globals'
+	option dhcp_default_duid '000000000000000000000000000000000000'
+	option ula_prefix 'fd00:0000:0000::/48'
+
+config device
+	option name 'br-lan'
+	option type 'bridge'
+	list ports 'lan1'
+	list ports 'lan2'
+	list ports 'lan3'
+
+# Gestão: 192.168.1.2 na rede do roteador principal + 192.168.31.1
+# como backdoor na porta LAN. Ajuste para as SUAS redes.
+config interface 'lan'
+	option device 'br-lan'
+	option proto 'static'
+	option ip6assign '60'
+	list ipaddr '192.168.1.2/24'
+	list ipaddr '192.168.31.1/24'
+	option dns '192.168.1.1'
+
+# Mantidas para migração futura para modo router (uplink por cabo).
+config interface 'wan'
+	option device 'wan'
+	option proto 'dhcp'
+
+config interface 'wan6'
+	option device 'wan'
+	option proto 'dhcpv6'
+
+# Interface do relay (o daemon relayd é iniciado pelo init do pacote;
+# aqui o proto serve de marcador lido por /etc/init.d/relayd).
+config interface 'wwan'
+	option proto 'relay'
+	list network 'lan'
+	option ipaddr '192.168.1.2'
