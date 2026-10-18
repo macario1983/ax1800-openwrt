@@ -1,0 +1,8 @@
+#!/bin/sh
+# Xiaomi Redmi AX1800: LAN no mesmo IP do firmware original (192.168.31.1),
+# evitando o default 192.168.1.1 do OpenWrt (que pode colidir com a rede local
+# do usuário).
+uci set network.lan.ipaddr='192.168.31.1'
+uci set network.lan.netmask='255.255.255.0'
+uci commit network
+exit 0

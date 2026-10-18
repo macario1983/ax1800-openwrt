@@ -1,0 +1,687 @@
+From 63c6efff99039745dafd08305c9eab52090af9a1 Mon Sep 17 00:00:00 2001
+From: Diego Macario <diego_macario@hotmail.com>
+Date: Sat, 17 Oct 2026 07:54:03 -0300
+Subject: [PATCH] ipq60xx: add Xiaomi Redmi AX1800 (RM1800) support
+
+- DTS ipq6000-xiaomi-ax1800 (NAND, dual boot slots)
+- ipq-wifi board-2 BDF (board-xiaomi_ax1800.ipq6018)
+- caldata: extract ART from 0:ART offset 0x1000 len 0x10000 (64 KB)
+- uboot-envtools: APPSBLENV; bootcount: confirm A/B boot flags
+- platform.sh: NAND upgrade to alternate rootfs slot
+- board.d: lan1-3 + wan mapping
+---
+ .../uboot-envtools/files/qualcommax_ipq60xx   |   3 +
+ package/firmware/ipq-wifi/Makefile            |   4 +-
+ .../files/board-xiaomi_ax1800.ipq6018         | Bin 0 -> 65640 bytes
+ .../boot/dts/qcom/ipq6000-xiaomi-ax1800.dts   | 337 ++++++++++++++++++
+ target/linux/qualcommax/image/ipq60xx.mk      |  15 +
+ .../ipq60xx/base-files/etc/board.d/02_network |   3 +
+ .../etc/hotplug.d/firmware/11-ath11k-caldata  |   4 +
+ .../ipq60xx/base-files/etc/init.d/bootcount   |  43 +++
+ .../base-files/lib/upgrade/platform.sh        |  36 ++
+ 9 files changed, 444 insertions(+), 1 deletion(-)
+ create mode 100644 package/firmware/ipq-wifi/files/board-xiaomi_ax1800.ipq6018
+ create mode 100644 target/linux/qualcommax/files/arch/arm64/boot/dts/qcom/ipq6000-xiaomi-ax1800.dts
+
+diff --git a/package/boot/uboot-tools/uboot-envtools/files/qualcommax_ipq60xx b/package/boot/uboot-tools/uboot-envtools/files/qualcommax_ipq60xx
+index a06ffc1..352fd3b 100644
+--- a/package/boot/uboot-tools/uboot-envtools/files/qualcommax_ipq60xx
++++ b/package/boot/uboot-tools/uboot-envtools/files/qualcommax_ipq60xx
+@@ -30,6 +30,9 @@ tplink,eap625-outdoor-hd-v1)
+ yuncore,fap650)
+ 	ubootenv_add_mtd "0:appsblenv" "0x0" "0x10000" "0x10000"
+ 	;;
++xiaomi,ax1800)
++	ubootenv_add_mtd "0:APPSBLENV" "0x0" "0x10000" "0x20000"
++	;;
+ esac
+ 
+ config_load ubootenv
+diff --git a/package/firmware/ipq-wifi/Makefile b/package/firmware/ipq-wifi/Makefile
+index d447eef..f2a0dea 100644
+--- a/package/firmware/ipq-wifi/Makefile
++++ b/package/firmware/ipq-wifi/Makefile
+@@ -91,6 +91,7 @@ ALLWIFIBOARDS:= \
+ 	tplink_tl-wa1201-v2 \
+ 	wallys_dr40x9 \
+ 	xiaomi_aiot-ac2350 \
++	xiaomi_ax1800 \
+ 	xiaomi_ax3600 \
+ 	xiaomi_ax6000 \
+ 	xiaomi_ax9000 \
+@@ -185,7 +186,7 @@ Do not install it for any other device!
+   endef
+ 
+   define Package/ipq-wifi-$(1)/install-overlay
+-    $$$$(foreach IPQ_WIFI_BOARD_FILE,$$$$(wildcard $(PKG_BUILD_DIR)/board-$(1).*),\
++    $$$$(foreach IPQ_WIFI_BOARD_FILE,$$$$(wildcard $(PKG_BUILD_DIR)/board-$(1).* $(CURDIR)/files/board-$(1).*),\
+       $$$$(call ipq-wifi-install-one,$$$$(IPQ_WIFI_BOARD_FILE),$$(1)))
+   endef
+ 
+@@ -274,6 +275,7 @@ $(eval $(call generate-ipq-wifi-package,tplink_archer-c60-v2,TP-Link Archer C60
+ $(eval $(call generate-ipq-wifi-package,tplink_tl-wa1201-v2,TP-Link TL-WA1201 V2))
+ $(eval $(call generate-ipq-wifi-package,wallys_dr40x9,Wallys DR40X9))
+ $(eval $(call generate-ipq-wifi-package,xiaomi_aiot-ac2350,Xiaomi AIoT AC2350))
++$(eval $(call generate-ipq-wifi-package,xiaomi_ax1800,Xiaomi Redmi AX1800))
+ $(eval $(call generate-ipq-wifi-package,xiaomi_ax3600,Xiaomi AX3600))
+ $(eval $(call generate-ipq-wifi-package,xiaomi_ax6000,Xiaomi AX6000))
+ $(eval $(call generate-ipq-wifi-package,xiaomi_ax9000,Xiaomi AX9000))
+diff --git a/package/firmware/ipq-wifi/files/board-xiaomi_ax1800.ipq6018 b/package/firmware/ipq-wifi/files/board-xiaomi_ax1800.ipq6018
+new file mode 100644
+index 0000000000000000000000000000000000000000..2599312d2779a174b2202aa9665b188680e8b493
+GIT binary patch
+literal 65640
+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
+YfKosypcGIFC<T-PN&%(76|TVl0~a%QcK`qY
+
+literal 0
+HcmV?d00001
+
+diff --git a/target/linux/qualcommax/files/arch/arm64/boot/dts/qcom/ipq6000-xiaomi-ax1800.dts b/target/linux/qualcommax/files/arch/arm64/boot/dts/qcom/ipq6000-xiaomi-ax1800.dts
+new file mode 100644
+index 0000000..1d25528
+--- /dev/null
++++ b/target/linux/qualcommax/files/arch/arm64/boot/dts/qcom/ipq6000-xiaomi-ax1800.dts
+@@ -0,0 +1,337 @@
++// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
++
++/dts-v1/;
++
++#include "ipq6018-512m.dtsi"
++#include "ipq6018-ess.dtsi"
++
++#include <dt-bindings/gpio/gpio.h>
++#include <dt-bindings/input/input.h>
++#include <dt-bindings/leds/common.h>
++
++/ {
++	model = "Xiaomi Redmi AX1800";
++	compatible = "xiaomi,ax1800", "qcom,ipq6018";
++
++	aliases {
++		label-mac-device = &dp5;
++		led-boot = &led_system_yellow;
++		led-failsafe = &led_system_yellow;
++		led-running = &led_system_blue;
++		led-upgrade = &led_system_yellow;
++		serial0 = &blsp1_uart3;
++	};
++
++	chosen {
++		bootargs-append = " root=/dev/ubiblock0_1";
++		stdout-path = "serial0:115200n8";
++	};
++
++	memory {
++		device_type = "memory";
++		reg = <0x0 0x40000000 0x0 0x10000000>;
++	};
++
++	keys {
++		compatible = "gpio-keys";
++
++		reset {
++			label = "reset";
++			gpios = <&tlmm 19 GPIO_ACTIVE_LOW>;
++			linux,code = <KEY_RESTART>;
++		};
++	};
++
++	leds {
++		compatible = "gpio-leds";
++
++		led_system_blue: blue {
++			color = <LED_COLOR_ID_BLUE>;
++			function = LED_FUNCTION_STATUS;
++			gpios = <&tlmm 29 GPIO_ACTIVE_HIGH>;
++		};
++
++		led_system_yellow: yellow {
++			color = <LED_COLOR_ID_YELLOW>;
++			function = LED_FUNCTION_STATUS;
++			gpios = <&tlmm 30 GPIO_ACTIVE_HIGH>;
++		};
++
++		led_net_blue: net-blue {
++			color = <LED_COLOR_ID_BLUE>;
++			function = "net";
++			gpios = <&tlmm 31 GPIO_ACTIVE_HIGH>;
++		};
++
++		led_net_yellow: net-yellow {
++			color = <LED_COLOR_ID_YELLOW>;
++			function = "net";
++			gpios = <&tlmm 32 GPIO_ACTIVE_HIGH>;
++		};
++	};
++};
++
++&tlmm {
++	mdio_pins: mdio-pins {
++		mdc {
++			pins = "gpio64";
++			function = "mdc";
++			drive-strength = <8>;
++			bias-pull-up;
++		};
++
++		mdio {
++			pins = "gpio65";
++			function = "mdio";
++			drive-strength = <8>;
++			bias-pull-up;
++		};
++	};
++};
++
++&blsp1_uart3 {
++	pinctrl-0 = <&serial_3_pins>;
++	pinctrl-names = "default";
++	status = "okay";
++};
++
++&qpic_bam {
++	status = "okay";
++};
++
++&qpic_nand {
++	status = "okay";
++
++	nand@0 {
++		reg = <0>;
++		nand-bus-width = <8>;
++		nand-ecc-strength = <4>;
++		nand-ecc-step-size = <512>;
++
++		partitions {
++			compatible = "fixed-partitions";
++			#address-cells = <1>;
++			#size-cells = <1>;
++
++			partition@0 {
++				label = "0:SBL1";
++				reg = <0x0 0x180000>;
++				read-only;
++			};
++
++			partition@180000 {
++				label = "0:MIBIB";
++				reg = <0x180000 0x100000>;
++				read-only;
++			};
++
++			partition@280000 {
++				label = "0:QSEE";
++				reg = <0x280000 0x380000>;
++				read-only;
++			};
++
++			partition@600000 {
++				label = "0:DEVCFG";
++				reg = <0x600000 0x80000>;
++				read-only;
++			};
++
++			partition@680000 {
++				label = "0:RPM";
++				reg = <0x680000 0x80000>;
++				read-only;
++			};
++
++			partition@700000 {
++				label = "0:CDT";
++				reg = <0x700000 0x80000>;
++				read-only;
++			};
++
++			partition@780000 {
++				label = "0:APPSBLENV";
++				reg = <0x780000 0x80000>;
++			};
++
++			partition@800000 {
++				label = "0:APPSBL";
++				reg = <0x800000 0x180000>;
++				read-only;
++			};
++
++			partition@980000 {
++				label = "0:ART";
++				reg = <0x980000 0x80000>;
++				read-only;
++
++				nvmem-layout {
++					compatible = "fixed-layout";
++					#address-cells = <1>;
++					#size-cells = <1>;
++
++					macaddr_lan: macaddr@6 {
++						reg = <0x6 0x6>;
++					};
++
++					macaddr_wan: macaddr@18 {
++						reg = <0x18 0x6>;
++					};
++				};
++			};
++
++			partition@a00000 {
++				label = "bdata";
++				reg = <0xa00000 0x80000>;
++				read-only;
++			};
++
++			partition@a80000 {
++				label = "crash";
++				reg = <0xa80000 0x80000>;
++				read-only;
++			};
++
++			partition@b00000 {
++				label = "crash_syslog";
++				reg = <0xb00000 0x80000>;
++				read-only;
++			};
++
++			partition@b80000 {
++				label = "rootfs";
++				reg = <0xb80000 0x2c80000>;
++			};
++
++			partition@3800000 {
++				label = "rootfs_1";
++				reg = <0x3800000 0x2c80000>;
++			};
++
++			partition@6480000 {
++				label = "overlay";
++				reg = <0x6480000 0x1680000>;
++				read-only;
++			};
++
++			partition@7b00000 {
++				label = "cfg_bak";
++				reg = <0x7b00000 0x80000>;
++				read-only;
++			};
++		};
++	};
++};
++
++&mdio {
++	status = "okay";
++
++	pinctrl-0 = <&mdio_pins>;
++	pinctrl-names = "default";
++	reset-gpios = <&tlmm 75 GPIO_ACTIVE_LOW>;
++
++	ethernet-phy-package@0 {
++		compatible = "qcom,qca8075-package";
++		#address-cells = <1>;
++		#size-cells = <0>;
++		reg = <0>;
++
++		qca8075_0: ethernet-phy@0 {
++			compatible = "ethernet-phy-ieee802.3-c22";
++			reg = <0>;
++		};
++
++		qca8075_1: ethernet-phy@1 {
++			compatible = "ethernet-phy-ieee802.3-c22";
++			reg = <1>;
++		};
++
++		qca8075_2: ethernet-phy@2 {
++			compatible = "ethernet-phy-ieee802.3-c22";
++			reg = <2>;
++		};
++
++		qca8075_3: ethernet-phy@3 {
++			compatible = "ethernet-phy-ieee802.3-c22";
++			reg = <3>;
++		};
++
++		qca8075_4: ethernet-phy@4 {
++			compatible = "ethernet-phy-ieee802.3-c22";
++			reg = <4>;
++		};
++	};
++};
++
++&switch {
++	status = "okay";
++
++	switch_lan_bmp = <(ESS_PORT2 | ESS_PORT3 | ESS_PORT4)>;
++	switch_wan_bmp = <ESS_PORT5>;
++	switch_mac_mode = <MAC_MODE_PSGMII>;
++
++	qcom,port_phyinfo {
++		port@2 {
++			port_id = <2>;
++			phy_address = <1>;
++		};
++
++		port@3 {
++			port_id = <3>;
++			phy_address = <2>;
++		};
++
++		port@4 {
++			port_id = <4>;
++			phy_address = <3>;
++		};
++
++		port@5 {
++			port_id = <5>;
++			phy_address = <4>;
++		};
++	};
++};
++
++&edma {
++	status = "okay";
++};
++
++&dp2 {
++	status = "okay";
++	phy-handle = <&qca8075_1>;
++	label = "lan1";
++	nvmem-cells = <&macaddr_lan>;
++	nvmem-cell-names = "mac-address";
++};
++
++&dp3 {
++	status = "okay";
++	phy-handle = <&qca8075_2>;
++	label = "lan2";
++	nvmem-cells = <&macaddr_lan>;
++	nvmem-cell-names = "mac-address";
++};
++
++&dp4 {
++	status = "okay";
++	phy-handle = <&qca8075_3>;
++	label = "lan3";
++	nvmem-cells = <&macaddr_lan>;
++	nvmem-cell-names = "mac-address";
++};
++
++&dp5 {
++	status = "okay";
++	phy-handle = <&qca8075_4>;
++	label = "wan";
++	nvmem-cells = <&macaddr_wan>;
++	nvmem-cell-names = "mac-address";
++};
++
++&wifi {
++	status = "okay";
++
++	qcom,ath11k-calibration-variant = "Xiaomi-AX1800";
++	qcom,ath11k-fw-memory-mode = <1>;
++};
+diff --git a/target/linux/qualcommax/image/ipq60xx.mk b/target/linux/qualcommax/image/ipq60xx.mk
+index 7e38d38..4f0ae38 100644
+--- a/target/linux/qualcommax/image/ipq60xx.mk
++++ b/target/linux/qualcommax/image/ipq60xx.mk
+@@ -215,6 +215,21 @@ define Device/tplink_eap625-outdoor-hd-v1
+ endef
+ TARGET_DEVICES += tplink_eap625-outdoor-hd-v1
+ 
++define Device/xiaomi_ax1800
++	$(call Device/FitImage)
++	$(call Device/UbiFit)
++	DEVICE_VENDOR := Xiaomi
++	DEVICE_MODEL := Redmi AX1800
++	DEVICE_DTS := ipq6000-xiaomi-ax1800
++	DEVICE_DTS_CONFIG := config@cp03-c1
++	SOC := ipq6000
++	BLOCKSIZE := 128k
++	PAGESIZE := 2048
++	DEVICE_PACKAGES := ipq-wifi-xiaomi_ax1800 uboot-envtools
++	SUPPORTED_DEVICES += xiaomi,ax1800
++endef
++TARGET_DEVICES += xiaomi_ax1800
++
+ define Device/yuncore_fap650
+ 	$(call Device/FitImage)
+ 	$(call Device/UbiFit)
+diff --git a/target/linux/qualcommax/ipq60xx/base-files/etc/board.d/02_network b/target/linux/qualcommax/ipq60xx/base-files/etc/board.d/02_network
+index b8b22bc..061847c 100644
+--- a/target/linux/qualcommax/ipq60xx/base-files/etc/board.d/02_network
++++ b/target/linux/qualcommax/ipq60xx/base-files/etc/board.d/02_network
+@@ -33,6 +33,9 @@ ipq60xx_setup_interfaces()
+ 	qihoo,360v6)
+ 		ucidef_set_interfaces_lan_wan "lan1 lan2 lan3" "wan"
+ 		;;
++	xiaomi,ax1800)
++		ucidef_set_interfaces_lan_wan "lan1 lan2 lan3" "wan"
++		;;
+ 	netgear,wax610|\
+ 	netgear,wax610y|\
+ 	tplink,eap610-outdoor|\
+diff --git a/target/linux/qualcommax/ipq60xx/base-files/etc/hotplug.d/firmware/11-ath11k-caldata b/target/linux/qualcommax/ipq60xx/base-files/etc/hotplug.d/firmware/11-ath11k-caldata
+index 8d32356..8817704 100644
+--- a/target/linux/qualcommax/ipq60xx/base-files/etc/hotplug.d/firmware/11-ath11k-caldata
++++ b/target/linux/qualcommax/ipq60xx/base-files/etc/hotplug.d/firmware/11-ath11k-caldata
+@@ -69,6 +69,10 @@ case "$FIRMWARE" in
+ 	yuncore,fap650)
+ 		caldata_extract "0:art" 0x1000 0x20000
+ 		;;
++	xiaomi,ax1800|\
++	redmi,ax1800)
++		caldata_extract "0:ART" 0x1000 0x10000
++		;;
+ 	esac
+ 	;;
+ "ath11k/QCN9074/hw1.0/cal-pci-0000:01:00.0.bin")
+diff --git a/target/linux/qualcommax/ipq60xx/base-files/etc/init.d/bootcount b/target/linux/qualcommax/ipq60xx/base-files/etc/init.d/bootcount
+index 5490e65..fd03d9d 100755
+--- a/target/linux/qualcommax/ipq60xx/base-files/etc/init.d/bootcount
++++ b/target/linux/qualcommax/ipq60xx/base-files/etc/init.d/bootcount
+@@ -15,5 +15,48 @@ boot() {
+ 	netgear,wax610y)
+ 		fw_setenv boot_count 0
+ 	;;
++	xiaomi,ax1800)
++		local cur_boot_part
++		local args
++		local mtd_idx
++
++		# /etc/fw_env.config is only generated on the first boot
++		# (30_uboot-envtools); make sure it is available so that the
++		# boot confirmation below actually reaches the bootloader
++		mtd_idx="$(find_mtd_index 0:APPSBLENV)"
++		[ -n "$mtd_idx" ] &&
++			! grep -qs "^/dev/mtd$mtd_idx " /etc/fw_env.config &&
++			echo "/dev/mtd$mtd_idx 0x0 0x10000 0x20000" > /etc/fw_env.config
++
++		# Find out which rootfs slot u-boot booted us from
++		read -r args < /proc/cmdline
++		for arg in $args; do
++			case "${arg#ubi.mtd=}" in
++			rootfs)
++				cur_boot_part=0
++				;;
++			rootfs_1)
++				cur_boot_part=1
++				;;
++			esac
++		done
++
++		# Not booted from NAND (e.g. initramfs), nothing to confirm
++		[ -n "$cur_boot_part" ] || return 0
++
++		# Confirm the boot and keep the bootloader's slot flags in sync,
++		# otherwise u-boot considers the boot failed and eventually falls
++		# back to the other rootfs slot
++		fw_setenv -s - <<-EOF
++			flag_boot_rootfs $cur_boot_part
++			flag_boot_success 1
++			flag_last_success $cur_boot_part
++			flag_ota_reboot 0
++			flag_try_sys1_failed 0
++			flag_try_sys2_failed 0
++		EOF
++
++		logger -t bootcount "confirmed boot from rootfs slot $cur_boot_part"
++	;;
+ 	esac
+ }
+diff --git a/target/linux/qualcommax/ipq60xx/base-files/lib/upgrade/platform.sh b/target/linux/qualcommax/ipq60xx/base-files/lib/upgrade/platform.sh
+index d313635..8fedc0b 100644
+--- a/target/linux/qualcommax/ipq60xx/base-files/lib/upgrade/platform.sh
++++ b/target/linux/qualcommax/ipq60xx/base-files/lib/upgrade/platform.sh
+@@ -55,6 +55,37 @@ tplink_get_boot_part() {
+ 	esac
+ }
+ 
++xiaomi_get_boot_part() {
++	local cur_boot_part
++	local args
++
++	# Try to find rootfs from kernel arguments
++	read -r args < /proc/cmdline
++	for arg in $args; do
++		case "${arg#ubi.mtd=}" in
++		rootfs)
++			echo rootfs
++			return
++		;;
++		rootfs_1)
++			echo rootfs_1
++			return
++		;;
++		esac
++	done
++
++	# Fallback to u-boot env (e.g. when running initramfs)
++	cur_boot_part="$(/usr/sbin/fw_printenv -n flag_boot_rootfs)"
++	case $cur_boot_part in
++	1)
++		echo rootfs_1
++		;;
++	0|*)
++		echo rootfs
++		;;
++	esac
++}
++
+ tplink_do_upgrade() {
+ 	local new_boot_part
+ 
+@@ -147,6 +178,11 @@ platform_do_upgrade() {
+ 	tplink,eap625-outdoor-hd-v1)
+ 		tplink_do_upgrade "$1"
+ 		;;
++	xiaomi,ax1800)
++		CI_UBIPART="$(xiaomi_get_boot_part)"
++		remove_oem_ubi_volume ubi_rootfs
++		nand_do_upgrade "$1"
++		;;
+ 	yuncore,fap650)
+ 		[ "$(fw_printenv -n owrt_env_ver 2>/dev/null)" != "7" ] && yuncore_fap650_env_setup
+ 		local active="$(fw_printenv -n owrt_slotactive 2>/dev/null)"
+-- 
+2.54.0 (Apple Git-157)
+

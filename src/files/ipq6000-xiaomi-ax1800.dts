@@ -1,0 +1,337 @@
+// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
+
+/dts-v1/;
+
+#include "ipq6018-512m.dtsi"
+#include "ipq6018-ess.dtsi"
+
+#include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/input/input.h>
+#include <dt-bindings/leds/common.h>
+
+/ {
+	model = "Xiaomi Redmi AX1800";
+	compatible = "xiaomi,ax1800", "qcom,ipq6018";
+
+	aliases {
+		label-mac-device = &dp5;
+		led-boot = &led_system_yellow;
+		led-failsafe = &led_system_yellow;
+		led-running = &led_system_blue;
+		led-upgrade = &led_system_yellow;
+		serial0 = &blsp1_uart3;
+	};
+
+	chosen {
+		bootargs-append = " root=/dev/ubiblock0_1";
+		stdout-path = "serial0:115200n8";
+	};
+
+	memory {
+		device_type = "memory";
+		reg = <0x0 0x40000000 0x0 0x10000000>;
+	};
+
+	keys {
+		compatible = "gpio-keys";
+
+		reset {
+			label = "reset";
+			gpios = <&tlmm 19 GPIO_ACTIVE_LOW>;
+			linux,code = <KEY_RESTART>;
+		};
+	};
+
+	leds {
+		compatible = "gpio-leds";
+
+		led_system_blue: blue {
+			color = <LED_COLOR_ID_BLUE>;
+			function = LED_FUNCTION_STATUS;
+			gpios = <&tlmm 29 GPIO_ACTIVE_HIGH>;
+		};
+
+		led_system_yellow: yellow {
+			color = <LED_COLOR_ID_YELLOW>;
+			function = LED_FUNCTION_STATUS;
+			gpios = <&tlmm 30 GPIO_ACTIVE_HIGH>;
+		};
+
+		led_net_blue: net-blue {
+			color = <LED_COLOR_ID_BLUE>;
+			function = "net";
+			gpios = <&tlmm 31 GPIO_ACTIVE_HIGH>;
+		};
+
+		led_net_yellow: net-yellow {
+			color = <LED_COLOR_ID_YELLOW>;
+			function = "net";
+			gpios = <&tlmm 32 GPIO_ACTIVE_HIGH>;
+		};
+	};
+};
+
+&tlmm {
+	mdio_pins: mdio-pins {
+		mdc {
+			pins = "gpio64";
+			function = "mdc";
+			drive-strength = <8>;
+			bias-pull-up;
+		};
+
+		mdio {
+			pins = "gpio65";
+			function = "mdio";
+			drive-strength = <8>;
+			bias-pull-up;
+		};
+	};
+};
+
+&blsp1_uart3 {
+	pinctrl-0 = <&serial_3_pins>;
+	pinctrl-names = "default";
+	status = "okay";
+};
+
+&qpic_bam {
+	status = "okay";
+};
+
+&qpic_nand {
+	status = "okay";
+
+	nand@0 {
+		reg = <0>;
+		nand-bus-width = <8>;
+		nand-ecc-strength = <4>;
+		nand-ecc-step-size = <512>;
+
+		partitions {
+			compatible = "fixed-partitions";
+			#address-cells = <1>;
+			#size-cells = <1>;
+
+			partition@0 {
+				label = "0:SBL1";
+				reg = <0x0 0x180000>;
+				read-only;
+			};
+
+			partition@180000 {
+				label = "0:MIBIB";
+				reg = <0x180000 0x100000>;
+				read-only;
+			};
+
+			partition@280000 {
+				label = "0:QSEE";
+				reg = <0x280000 0x380000>;
+				read-only;
+			};
+
+			partition@600000 {
+				label = "0:DEVCFG";
+				reg = <0x600000 0x80000>;
+				read-only;
+			};
+
+			partition@680000 {
+				label = "0:RPM";
+				reg = <0x680000 0x80000>;
+				read-only;
+			};
+
+			partition@700000 {
+				label = "0:CDT";
+				reg = <0x700000 0x80000>;
+				read-only;
+			};
+
+			partition@780000 {
+				label = "0:APPSBLENV";
+				reg = <0x780000 0x80000>;
+			};
+
+			partition@800000 {
+				label = "0:APPSBL";
+				reg = <0x800000 0x180000>;
+				read-only;
+			};
+
+			partition@980000 {
+				label = "0:ART";
+				reg = <0x980000 0x80000>;
+				read-only;
+
+				nvmem-layout {
+					compatible = "fixed-layout";
+					#address-cells = <1>;
+					#size-cells = <1>;
+
+					macaddr_lan: macaddr@6 {
+						reg = <0x6 0x6>;
+					};
+
+					macaddr_wan: macaddr@18 {
+						reg = <0x18 0x6>;
+					};
+				};
+			};
+
+			partition@a00000 {
+				label = "bdata";
+				reg = <0xa00000 0x80000>;
+				read-only;
+			};
+
+			partition@a80000 {
+				label = "crash";
+				reg = <0xa80000 0x80000>;
+				read-only;
+			};
+
+			partition@b00000 {
+				label = "crash_syslog";
+				reg = <0xb00000 0x80000>;
+				read-only;
+			};
+
+			partition@b80000 {
+				label = "rootfs";
+				reg = <0xb80000 0x2c80000>;
+			};
+
+			partition@3800000 {
+				label = "rootfs_1";
+				reg = <0x3800000 0x2c80000>;
+			};
+
+			partition@6480000 {
+				label = "overlay";
+				reg = <0x6480000 0x1680000>;
+				read-only;
+			};
+
+			partition@7b00000 {
+				label = "cfg_bak";
+				reg = <0x7b00000 0x80000>;
+				read-only;
+			};
+		};
+	};
+};
+
+&mdio {
+	status = "okay";
+
+	pinctrl-0 = <&mdio_pins>;
+	pinctrl-names = "default";
+	reset-gpios = <&tlmm 75 GPIO_ACTIVE_LOW>;
+
+	ethernet-phy-package@0 {
+		compatible = "qcom,qca8075-package";
+		#address-cells = <1>;
+		#size-cells = <0>;
+		reg = <0>;
+
+		qca8075_0: ethernet-phy@0 {
+			compatible = "ethernet-phy-ieee802.3-c22";
+			reg = <0>;
+		};
+
+		qca8075_1: ethernet-phy@1 {
+			compatible = "ethernet-phy-ieee802.3-c22";
+			reg = <1>;
+		};
+
+		qca8075_2: ethernet-phy@2 {
+			compatible = "ethernet-phy-ieee802.3-c22";
+			reg = <2>;
+		};
+
+		qca8075_3: ethernet-phy@3 {
+			compatible = "ethernet-phy-ieee802.3-c22";
+			reg = <3>;
+		};
+
+		qca8075_4: ethernet-phy@4 {
+			compatible = "ethernet-phy-ieee802.3-c22";
+			reg = <4>;
+		};
+	};
+};
+
+&switch {
+	status = "okay";
+
+	switch_lan_bmp = <(ESS_PORT2 | ESS_PORT3 | ESS_PORT4)>;
+	switch_wan_bmp = <ESS_PORT5>;
+	switch_mac_mode = <MAC_MODE_PSGMII>;
+
+	qcom,port_phyinfo {
+		port@2 {
+			port_id = <2>;
+			phy_address = <1>;
+		};
+
+		port@3 {
+			port_id = <3>;
+			phy_address = <2>;
+		};
+
+		port@4 {
+			port_id = <4>;
+			phy_address = <3>;
+		};
+
+		port@5 {
+			port_id = <5>;
+			phy_address = <4>;
+		};
+	};
+};
+
+&edma {
+	status = "okay";
+};
+
+&dp2 {
+	status = "okay";
+	phy-handle = <&qca8075_1>;
+	label = "lan1";
+	nvmem-cells = <&macaddr_lan>;
+	nvmem-cell-names = "mac-address";
+};
+
+&dp3 {
+	status = "okay";
+	phy-handle = <&qca8075_2>;
+	label = "lan2";
+	nvmem-cells = <&macaddr_lan>;
+	nvmem-cell-names = "mac-address";
+};
+
+&dp4 {
+	status = "okay";
+	phy-handle = <&qca8075_3>;
+	label = "lan3";
+	nvmem-cells = <&macaddr_lan>;
+	nvmem-cell-names = "mac-address";
+};
+
+&dp5 {
+	status = "okay";
+	phy-handle = <&qca8075_4>;
+	label = "wan";
+	nvmem-cells = <&macaddr_wan>;
+	nvmem-cell-names = "mac-address";
+};
+
+&wifi {
+	status = "okay";
+
+	qcom,ath11k-calibration-variant = "Xiaomi-AX1800";
+	qcom,ath11k-fw-memory-mode = <1>;
+};
