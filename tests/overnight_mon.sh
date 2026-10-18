@@ -1,4 +1,6 @@
 #!/bin/zsh
+# NOTA: valores do ambiente de teste do autor — ajuste IPs/hostname ao seu caso.
+# 192.168.1.100 = cliente/coletor; en0 = interface Wi-Fi do Mac.
 # overnight_mon.sh - monitora o AX1800 por ~8h com testes leves horarios
 B=/private/var/folders/14/38144zv502g1mwl7d4mvf9dh0000gn/T/opencode
 LOG="$B/overnight.log"
@@ -46,7 +48,7 @@ for i in $(seq 1 48); do
     [ "$RF" -ge 3 ] && log "!! relay wifi inacessivel ha $RF ciclos (cabo=$pc) - guard deve reiniciar se STA morta"
   else
     log "cyc=$CYC cable=$pc relay=$pr SSH_FAIL"
-    RCHK=$(perl -e 'alarm shift; exec @ARGV' 12 ssh "${SSHOPTS[@]}" -b 192.168.1.209 root@192.168.1.2 'echo ROK' 2>/dev/null)
+    RCHK=$(perl -e 'alarm shift; exec @ARGV' 12 ssh "${SSHOPTS[@]}" -b 192.168.1.100 root@192.168.1.2 'echo ROK' 2>/dev/null)
     log "   ssh relay=${RCHK:-FAIL}"
     if [ "$pc" = F ]; then CF=$((CF+1)); else CF=0; fi
     [ "$CF" -ge 3 ] && log "!! box travado ha $CF ciclos — guard reinicia em ~6min"
@@ -58,7 +60,7 @@ wget -T 20 -q -O /dev/null http://192.168.31.100:8123/small4m.bin
 t1=$(cut -d' ' -f1 /proc/uptime); r1=$(cat /sys/class/net/br-lan/statistics/rx_bytes)
 awk -v a=$t0 -v b=$t1 -v x=$r0 -v y=$r1 'BEGIN{d=b-a;by=y-x;printf "TPCABO=%.1f\n", by*8/d/1e6}'
 r0=$(cat /sys/class/net/phy0-sta0/statistics/rx_bytes); t0=$(cut -d' ' -f1 /proc/uptime)
-wget -T 20 -q -O /dev/null http://192.168.1.209:8123/small4m.bin
+wget -T 20 -q -O /dev/null http://192.168.1.100:8123/small4m.bin
 t1=$(cut -d' ' -f1 /proc/uptime); r1=$(cat /sys/class/net/phy0-sta0/statistics/rx_bytes)
 awk -v a=$t0 -v b=$t1 -v x=$r0 -v y=$r1 'BEGIN{d=b-a;by=y-x;printf "TPREL=%.1f\n", by*8/d/1e6}'
 EOS
