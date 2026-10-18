@@ -194,3 +194,23 @@ reclaim direto.
 > volta; throughput validado), mas com **reboots periódicos** em cenários de
 > pressão de memória. A recomendação honesta: não usar como ponto único de
 > rede em produção até resolver isso.
+
+## 10. Experimentos de estabilidade (2026-10-18, sessão 2) — resultados
+
+Imagens A/B de teste foram preparadas para eliminar os resets. Resumo do que
+foi testado, tudo em hardware real:
+
+| Experimento | Resultado |
+|---|---|
+| `initcall_blacklist=qcom_watchdog_driver_init` no bootargs (via DTS/FIT) | ✅ funciona (kernel loga `blacklisting initcall ...`; `/dev/watchdog` ausente). **Porém os resets continuam**: existe um **segundo mecanismo de reset (~2,5–3 min)** de nível inferior (SBL/PMIC — hipótese). Sem o watchdog de 30 s, um travamento deixa a rede fora ~3 min em vez de ~30 s → **pior disponibilidade**. Revertido. |
+| `kernel.panic_on_oops=0` | Sem efeito nos eventos observados (não são oops-pânicos). Mantido por ser inócuo. |
+| `pstore/ramoops` (`memmap=256K$...` + module params) | ❌ falhou: o `memmap` **não reservou** a região (`/proc/iomem` sem `0x4e300000`); o alocador reutilizou a área → registros corrompidos (`ramoops: failed to allocate buffer`) e caixa-preta vazia. Correção futura: reserva via `reserved-memory` no DTS. |
+| `netconsole` builtin via cmdline | ❌ falhou no boot: `netpoll: netconsole: lan1 doesn't exist, aborting` (a porta DSA ainda não existe aos 1,6 s). Correção futura: `CONFIG_NETCONSOLE=m` + `modprobe` por script após a rede. |
+| Backup/restore de config (`sysupgrade -b` / `-r`) | ✅ fluxo robusto e repetível (backup de 10 KB; imagem de 13,5 MB transferida via canal SSH em ~0,5 s). |
+| Tracer de uptime/memória a 2 s (procd + TCP/UDP direto) | ✅ fundamental: capturou os últimos instantes antes de cada evento (independe do `logd`). |
+
+**Aprendizado-chave:** o `qcom_wdt` (30 s) **não é a causa** dos resets — é o
+**mecanismo de recuperação mais rápido**. O problema real está a montante: o
+afundamento de memória (até ~5–6 MB livres) que precede o travamento. Com o
+watchdog ativo, o equipamento se recupera em ~30 s; sem ele, em ~2,5–3 min
+(mecanismo de nível inferior). **A imagem final mantém o watchdog ativo.**
