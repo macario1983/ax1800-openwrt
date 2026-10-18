@@ -32,9 +32,12 @@ OF: reserved mem: 0x000000004ab00000..0x000000004e1fffff (56320 KiB)  memory@4ab
 Memory: 157440K/262144K available (102980K reserved, 0K cma-reserved)
 ```
 
-- **`memory@4ab00000` (55 MB)** é a região do **NSS** (`q6_region` no DTS da
-  família). No mainline o offload NSS **não** é usado pelo Wi-Fi, e essa
-  reserva fica ociosa — ver [07-memory-and-oom.md](07-memory-and-oom.md).
+- **`memory@4ab00000` (55 MB)** é o **`q6_region`**: a região de memória do
+  **firmware do Q6/WCSS** (o `remoteproc@cd00000` / `q6v5_wcss` que carrega o
+  `IPQ6018/q6_fw.mdt` e roda o Wi-Fi). O `ipq6018-512m.dtsi` ajusta o tamanho
+  dessa região. **Não é “reserva do NSS”** e não pode ser simplesmente
+  removida — o firmware não sobe sem ela. Ver
+  [07-memory-and-oom.md](07-memory-and-oom.md) para a anatomia completa.
 - `MemTotal` reportado pelo Linux: **160 124 kB** (~156 MB).
 
 ## Layout da NAND (16 partições, espelho do stock)
