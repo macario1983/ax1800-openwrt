@@ -1,0 +1,19 @@
+# macOS
+.DS_Store
+
+# artefatos de build locais
+build/
+staging_dir/
+build_dir/
+tmp/
+bin/
+dl/
+logs/
+
+# imagens não são versionadas (geradas a partir do build)
+images/*.itb
+images/*.ubi
+images/*.bin
+
+# arquivos de ambiente do autor
+*.sparseimage
