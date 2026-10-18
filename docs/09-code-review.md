@@ -3,7 +3,7 @@
 Revisão feita em 2026-10-18 a partir de:
 
 1. leitura integral dos arquivos do repositório e do patch;
-2. arqueologia do git (commit `63c6eff` sobre `ba915c2` = v25.12.4);
+2. arqueologia do git (commit `2b3814f` sobre `ba915c2` = v25.12.4);
 3. verificação **no equipamento real** (dmesg, `fw_printenv`, rotas, UCI,
    arquivos de firmware, syslog);
 4. conferência dos hashes das imagens e do BDF;

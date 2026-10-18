@@ -115,12 +115,34 @@ Gravar um firmware não-oficial **pode brickar** o aparelho. Tenha sempre:
 dump completo da NAND, acesso UART 3.3 V e o firmware stock para recuperação.
 Nenhum destes arquivos é afiliado à Xiaomi ou ao OpenWrt.
 
+## Como este projeto foi feito
+
+O port, o kit operacional, a instrumentação de campo (tracer de 2 s, probe de
+memória, análise forense de OOM/pânico) e esta documentação foram desenvolvidos
+em **pair-programming com um agente de IA**: o harness [OpenCode](https://opencode.ai)
+executando o modelo **DeepSeek V4.1 Flash**.
+
+Também fazem parte do fluxo de trabalho:
+
+- **validação em hardware real** — todo número citado (throughput, memória,
+  reboots) veio de medições no equipamento, registradas em [tests/](tests/);
+- **experimentos verificáveis** — mudanças de estabilidade (watchdog,
+  `panic_on_oops`, pstore/ramoops, netconsole) foram aplicadas em imagem
+  própria com slots A/B, cada uma reversível;
+- **sanitização** — nenhuma credencial de rede real é publicada (SSID, chaves,
+  MACs e IPs de exemplo são placeholders).
+
+O histórico de commits registra cada etapa do trabalho (port → documentação →
+kit do roteador → testes → revisão → publicação).
+
 ## Licença e créditos
 
 - Conteúdo derivado do **OpenWrt** — licença [GPL-2.0](LICENSE).
 - DTS baseado nos boards `glinet_gl-ax1800` / `qihoo_360v6` e nos includes
   `ipq6018-512m.dtsi` / `ipq6018-ess.dtsi`.
 - Agradecimentos à comunidade OpenWrt pelo target `qualcommax/ipq60xx`.
+- Desenvolvimento assistido por IA (OpenCode + **DeepSeek V4.1 Flash**), com
+  operação e validação em hardware pelo autor.
 
 ---
 

@@ -156,7 +156,7 @@ Comprovado no dump da partição (`~/ax1800/nand/mtd8_0_ART.bin`, 512 KB):
 0x11000..0x21000: 65536 bytes, 65536 são 0xFF      ← lixo não gravado
 ```
 
-**Correção definitiva (commitada nas 2 árvores — `280ce00` / `63c6eff`)** em `target/linux/qualcommax/ipq60xx/base-files/etc/hotplug.d/firmware/11-ath11k-caldata`:
+**Correção definitiva (commits locais `2ac76e0` / `2b3814f` após a migração para a identidade do GitHub)** em `target/linux/qualcommax/ipq60xx/base-files/etc/hotplug.d/firmware/11-ath11k-caldata`:
 ```sh
 xiaomi,ax1800|\
 redmi,ax1800)
