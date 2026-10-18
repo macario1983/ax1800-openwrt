@@ -94,7 +94,7 @@ config wifi-iface 'default_radio0' # AP 5 GHz → lan
 	option encryption 'psk2'
 	option network 'lan'
 
-config wifi-iface 'zarasta'        # STA → wwan
+config wifi-iface 'sta_uplink'        # STA → wwan
 	option device 'radio0'
 	option mode 'sta'
 	option ssid 'HomeNet'
@@ -168,7 +168,7 @@ Evidence: [tests/results/guardtest.log](../tests/results/guardtest.log).
 
 1. **Primeiro** desabilite a STA (evita loop L2):
    ```sh
-   uci set wireless.zarasta.disabled='1'
+   uci set wireless.sta_uplink.disabled='1'
    uci commit wireless
    wifi reload
    ```

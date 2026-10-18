@@ -50,6 +50,7 @@ target `qualcommax/ipq60xx`, perfil `xiaomi_ax1800`.
 ```
 docs/        documentação técnica (hardware, port, build, flash, calibração,
              repetidor, memória/OOM, validação, code review, troubleshooting)
+             + history/ com o log de engenharia original (sanitizado)
 src/         código-fonte do port (patch aplicável + arquivos avulsos)
 router/      kit operacional do roteador (scripts, init.d, hotplug, configs)
 configs/     configuração de build (defconfig + buildinfo)
@@ -88,6 +89,10 @@ Passo a passo completo em [docs/04-flash-and-recovery.md](docs/04-flash-and-reco
 Configuração e armadilhas (relayd, ARP do host, rotas, guard) em
 [docs/06-repeater-relay.md](docs/06-repeater-relay.md). O kit pronto para o
 roteador está em [router/](router/README.md).
+
+> O modo repetidor usa o pacote **`relayd`** — inclua
+> `CONFIG_PACKAGE_relayd=y` no build (veja
+> [configs/README](configs/README.md)).
 
 ## Validação
 

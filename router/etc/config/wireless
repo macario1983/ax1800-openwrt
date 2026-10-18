@@ -32,7 +32,7 @@ config wifi-iface 'default_radio1'
 	option disabled '0'
 	option key 'REDACTED'
 
-config wifi-iface 'zarasta'
+config wifi-iface 'sta_uplink'
 	option device 'radio0'
 	option mode 'sta'
 	option ssid 'HomeNet'

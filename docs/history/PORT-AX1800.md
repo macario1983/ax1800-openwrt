@@ -201,7 +201,7 @@ redmi,ax1800)
 - Caminho relay (testes): `ping -b en0 192.168.1.2` / `ssh -b 192.168.1.100 root@192.168.1.2`.
 
 **Migração para cabo (quando quiser):** desabilitar a STA **antes** de plugar o cabo
-(`uci set wireless.zarasta.disabled='1'; uci commit wireless; wifi reload`) — evita loop L2 (relay + cabo na mesma rede). **Desabilitar também o guard** (`/etc/init.d/guard disable; /etc/init.d/guard stop`) — em modo cabeado o ping `-I phy0-sta0` sempre falha e o guard reiniciaria o box sem necessidade. `wan` já está em DHCP caso queira modo router.
+(`uci set wireless.sta_uplink.disabled='1'; uci commit wireless; wifi reload`) — evita loop L2 (relay + cabo na mesma rede). **Desabilitar também o guard** (`/etc/init.d/guard disable; /etc/init.d/guard stop`) — em modo cabeado o ping `-I phy0-sta0` sempre falha e o guard reiniciaria o box sem necessidade. `wan` já está em DHCP caso queira modo router.
 
 ## 9. Memória, OOM e NSS — o limite real do mainline (2026-10-17)
 

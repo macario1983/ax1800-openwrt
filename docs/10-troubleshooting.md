@@ -76,7 +76,7 @@ para o próprio MAC do cliente).
 E desabilitar a STA **antes** de plugar o cabo (evita loop L2):
 
 ```sh
-uci set wireless.zarasta.disabled='1'; uci commit wireless; wifi reload
+uci set wireless.sta_uplink.disabled='1'; uci commit wireless; wifi reload
 ```
 
 ## Guard não reinicia quando o uplink morre
