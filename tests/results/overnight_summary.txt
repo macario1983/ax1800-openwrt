@@ -1,0 +1,35 @@
+=== RESUMO OVERNIGHT AX1800 2026-10-18 08:18:35 ===
+ciclos: 48 | ciclos 100% ok (cabo+relay+sta+relayd): 48
+reboots detectados: 16
+max OOM kills (acumulado dmesg): 6
+free minimo: 6156kB | avail minimo: 4356kB
+throughput cabo (Mbps, 4MB): 117.8 227.3 227.7 244.1 8.1 227.4 114.2 227.1
+throughput relay (Mbps, 4MB): 55.7 92.3 66.2 73.1  23.6 103.2 100.3
+luci cabo (http): 200 200 200 200 000 200 200 200
+luci relay (http): 200 200 200 200 000 200 200 200
+--- ultimas linhas do log ---
+[2026-10-18 06:35:46] cyc=38 cable=OK relay=OK U=743 F=10864 A=15124 K=0 G=1 S=1 R=1 SIG=-35 NET=1
+[2026-10-18 06:44:49] cyc=39 cable=OK relay=OK U=1286 F=8416 A=11320 K=0 G=1 S=1 R=1 SIG=-36 NET=1
+[2026-10-18 06:53:53] cyc=40 cable=OK relay=OK U=1828 F=6704 A=6252 K=0 G=1 S=1 R=1 SIG=-36 NET=1
+[2026-10-18 07:03:00] cyc=41 cable=OK relay=OK U=101 F=10292 A=23308 K=0 G=1 S=1 R=1 SIG=-36 NET=0
+[2026-10-18 07:03:00] !! REBOOT detectado (uptime 1828 -> 101)
+--guard-reboots-file--
+1792294870
+[2026-10-18 07:04:02]    pos-reboot: ping cable=0
+[2026-10-18 07:13:04] cyc=42 cable=OK relay=OK U=710 F=9132 A=16196 K=0 G=1 S=1 R=1 SIG=-36 NET=1
+[2026-10-18 07:13:05]    leve: cabo=114.2Mbps relay=103.2Mbps luci_cabo=200 luci_relay=200
+[2026-10-18 07:22:08] cyc=43 cable=OK relay=OK U=1254 F=10016 A=8308 K=0 G=1 S=1 R=1 SIG=-37 NET=1
+[2026-10-18 07:31:16] cyc=44 cable=OK relay=OK U=333 F=13856 A=20368 K=0 G=1 S=1 R=1 SIG=-35 NET=0
+[2026-10-18 07:31:16] !! REBOOT detectado (uptime 1254 -> 333)
+--guard-reboots-file--
+1792294870
+[2026-10-18 07:32:17]    pos-reboot: ping cable=0
+[2026-10-18 07:41:20] cyc=45 cable=OK relay=OK U=942 F=14876 A=15556 K=0 G=1 S=1 R=1 SIG=-36 NET=1
+[2026-10-18 07:50:23] cyc=46 cable=OK relay=OK U=1485 F=10464 A=10968 K=0 G=1 S=1 R=1 SIG=-35 NET=1
+[2026-10-18 07:59:30] cyc=47 cable=OK relay=OK U=76 F=10564 A=20356 K=0 G=1 S=1 R=1 SIG=-35 NET=0
+[2026-10-18 07:59:30] !! REBOOT detectado (uptime 1485 -> 76)
+--guard-reboots-file--
+1792294870
+[2026-10-18 08:00:31]    pos-reboot: ping cable=0
+[2026-10-18 08:09:34] cyc=48 cable=OK relay=OK U=685 F=11648 A=10584 K=0 G=1 S=1 R=1 SIG=-35 NET=1
+[2026-10-18 08:09:35]    leve: cabo=227.1Mbps relay=100.3Mbps luci_cabo=200 luci_relay=200

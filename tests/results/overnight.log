@@ -1,0 +1,216 @@
+[2026-10-18 00:45:58] === overnight_mon start ===
+[2026-10-18 00:46:06] cyc=1 cable=OK relay=OK U=275 F=10424 A=14264 K=0 G=1 S=1 R=1 SIG=-35 NET=0
+[2026-10-18 00:55:08] cyc=2 cable=OK relay=OK U=823 F=15060 A=13436 K=0 G=1 S=1 R=1 SIG=-35 NET=1
+[2026-10-18 01:04:11] cyc=3 cable=OK relay=OK U=1365 F=9924 A=8304 K=0 G=1 S=1 R=1 SIG=-36 NET=1
+[2026-10-18 01:13:16] cyc=4 cable=OK relay=OK U=1909 F=6524 A=5000 K=0 G=1 S=1 R=1 SIG=-36 NET=1
+[2026-10-18 01:22:23] cyc=5 cable=OK relay=OK U=233 F=15544 A=21368 K=0 G=1 S=1 R=1 SIG=-36 NET=0
+[2026-10-18 01:22:23] !! REBOOT detectado (uptime 1909 -> 233)
+--guard-reboots-file--
+1792294870
+[2026-10-18 01:23:24]    pos-reboot: ping cable=0
+[2026-10-18 01:32:27] cyc=6 cable=OK relay=OK U=842 F=9488 A=7780 K=0 G=1 S=1 R=1 SIG=-35 NET=1
+[2026-10-18 01:32:29]    leve: cabo=117.8Mbps relay=55.7Mbps luci_cabo=200 luci_relay=200
+[2026-10-18 01:41:36] cyc=7 cable=OK relay=OK U=279 F=11596 A=20660 K=0 G=1 S=1 R=1 SIG=-36 NET=0
+[2026-10-18 01:41:36] !! REBOOT detectado (uptime 842 -> 279)
+--guard-reboots-file--
+1792294870
+[2026-10-18 01:42:37]    pos-reboot: ping cable=0
+[2026-10-18 01:51:40] cyc=8 cable=OK relay=OK U=888 F=7052 A=8464 K=0 G=1 S=1 R=1 SIG=-36 NET=1
+[2026-10-18 02:00:48] cyc=9 cable=OK relay=OK U=330 F=12944 A=11724 K=0 G=1 S=1 R=1 SIG=-36 NET=0
+[2026-10-18 02:00:48] !! REBOOT detectado (uptime 888 -> 330)
+--guard-reboots-file--
+1792294870
+[2026-10-18 02:01:49]    pos-reboot: ping cable=0
+[2026-10-18 02:10:52] cyc=10 cable=OK relay=OK U=939 F=14408 A=12764 K=0 G=1 S=1 R=1 SIG=-36 NET=1
+[2026-10-18 02:20:00] cyc=11 cable=OK relay=OK U=163 F=11592 A=21448 K=0 G=1 S=1 R=1 SIG=-45 NET=0
+[2026-10-18 02:20:00] !! REBOOT detectado (uptime 939 -> 163)
+--guard-reboots-file--
+1792294870
+[2026-10-18 02:21:01]    pos-reboot: ping cable=0
+[2026-10-18 02:30:04] cyc=12 cable=OK relay=OK U=772 F=13688 A=16016 K=0 G=1 S=1 R=1 SIG=-36 NET=1
+[2026-10-18 02:30:05]    leve: cabo=227.3Mbps relay=92.3Mbps luci_cabo=200 luci_relay=200
+[2026-10-18 02:39:08] cyc=13 cable=OK relay=OK U=1315 F=8984 A=7180 K=0 G=1 S=1 R=1 SIG=-35 NET=1
+[2026-10-18 02:48:13] cyc=14 cable=OK relay=OK U=443 F=9456 A=9012 K=0 G=1 S=1 R=1 SIG=-36 NET=1
+[2026-10-18 02:48:13] !! REBOOT detectado (uptime 1315 -> 443)
+Sun Oct 18 03:55:00 2026 user.notice guard: rota default via STA restaurada
+--guard-reboots-file--
+1792294870
+[2026-10-18 02:49:14]    pos-reboot: ping cable=0
+[2026-10-18 02:58:18] cyc=15 cable=OK relay=OK U=1049 F=12560 A=11056 K=0 G=1 S=1 R=1 SIG=-36 NET=1
+[2026-10-18 03:07:26] cyc=16 cable=OK relay=OK U=1592 F=8952 A=7256 K=2 G=1 S=1 R=1 SIG=-36 NET=1
+[2026-10-18 03:07:26] !! OOM ALERT: kills 0 -> 2
+[ 1249.051683]  el0t_64_sync+0x178/0x17c
+[ 1249.051689] Mem-Info:
+[ 1249.152133] active_anon:890 inactive_anon:279 isolated_anon:0
+--
+[ 1588.390918] ps invoked oom-killer: gfp_mask=0xcc0(GFP_KERNEL), order=0, oom_score_adj=-1000
+[ 1588.390982] CPU: 3 UID: 0 PID: 6218 Comm: ps Tainted: G           O       6.12.87 #0
+[ 1588.390993] Tainted: [O]=OOT_MODULE
+[ 1588.390996] Hardware name: Xiaomi Redmi AX1800 (DT)
+[ 1588.391000] Call trace:
+[ 1588.391004]  dump_backtrace.part.0+0xbc/0xc8
+[ 1588.391021]  show_stack+0x18/0x24
+[ 1588.391030]  dump_stack_lvl+0x5c/0x7c
+[ 1588.391042]  dump_stack+0x18/0x24
+[ 1588.391051]  dump_header+0x40/0x11c
+[ 1588.391063]  oom_kill_process+0x25c/0x2c4
+[ 1588.391075]  out_of_memory+0xc8/0x310
+[ 1588.391084]  __alloc_pages_noprof+0x684/0xc5c
+[ 1588.391096]  get_free_pages_noprof+0x1c/0x60
+[ 1588.391106]  proc_pid_cmdline_read+0x1b4/0x380
+[ 1588.391113]  vfs_read+0x9c/0x2a0
+[ 1588.391120]  ksys_read+0x5c/0xe0
+[ 1588.391126]  __arm64_sys_read+0x1c/0x34
+[ 1588.391131]  invoke_syscall.constprop.0+0x58/0xe0
+[ 1588.391141]  do_el0_svc+0x40/0xc0
+[ 1588.391148]  el0_svc+0x24/0xdc
+[ 1588.391154]  el0t_64_sync_handler+0x120/0x12c
+[ 1588.391160]  el0t_64_sync+0x178/0x17c
+[ 1588.391167] Mem-Info:
+[ 1588.484645] active_anon:279 inactive_anon:901 isolated_anon:0
+[ 1588.484645]  active_file:54 inactive_file:398 isolated_file:0
+[2026-10-18 03:16:30] cyc=17 cable=OK relay=OK U=481 F=6896 A=19244 K=0 G=1 S=1 R=1 SIG=-36 NET=1
+[2026-10-18 03:16:30] !! REBOOT detectado (uptime 1592 -> 481)
+Sun Oct 18 03:55:02 2026 user.notice guard: rota default via STA restaurada
+--guard-reboots-file--
+1792294870
+[2026-10-18 03:17:31]    pos-reboot: ping cable=0
+[2026-10-18 03:26:34] cyc=18 cable=OK relay=OK U=1085 F=9828 A=10860 K=0 G=1 S=1 R=1 SIG=-36 NET=1
+[2026-10-18 03:26:35]    leve: cabo=227.7Mbps relay=66.2Mbps luci_cabo=200 luci_relay=200
+[2026-10-18 03:35:40] cyc=19 cable=OK relay=OK U=1629 F=8328 A=7060 K=0 G=1 S=1 R=1 SIG=-35 NET=1
+[2026-10-18 03:44:47] cyc=20 cable=OK relay=OK U=273 F=14816 A=21628 K=0 G=1 S=1 R=1 SIG=-36 NET=0
+[2026-10-18 03:44:47] !! REBOOT detectado (uptime 1629 -> 273)
+--guard-reboots-file--
+1792294870
+[2026-10-18 03:45:48]    pos-reboot: ping cable=0
+[2026-10-18 03:54:51] cyc=21 cable=OK relay=OK U=882 F=10932 A=13556 K=0 G=1 S=1 R=1 SIG=-35 NET=1
+[2026-10-18 04:03:55] cyc=22 cable=OK relay=OK U=1425 F=9108 A=7416 K=0 G=1 S=1 R=1 SIG=-36 NET=1
+[2026-10-18 04:12:58] cyc=23 cable=OK relay=OK U=427 F=8888 A=19092 K=0 G=1 S=1 R=1 SIG=-36 NET=1
+[2026-10-18 04:12:58] !! REBOOT detectado (uptime 1425 -> 427)
+Sun Oct 18 03:55:02 2026 user.notice guard: rota default via STA restaurada
+--guard-reboots-file--
+1792294870
+[2026-10-18 04:13:59]    pos-reboot: ping cable=0
+[2026-10-18 04:23:03] cyc=24 cable=OK relay=OK U=1031 F=12660 A=12000 K=0 G=1 S=1 R=1 SIG=-35 NET=1
+[2026-10-18 04:23:04]    leve: cabo=244.1Mbps relay=73.1Mbps luci_cabo=200 luci_relay=200
+[2026-10-18 04:32:07] cyc=25 cable=OK relay=OK U=1576 F=7372 A=5192 K=1 G=1 S=1 R=1 SIG=-36 NET=1
+[2026-10-18 04:32:07] !! OOM ALERT: kills 0 -> 1
+[ 1517.890397] hostapd invoked oom-killer: gfp_mask=0x140dca(GFP_HIGHUSER_MOVABLE|__GFP_COMP|__GFP_ZERO), order=0, oom_score_adj=-1000
+[ 1517.890472] CPU: 3 UID: 101 PID: 1503 Comm: hostapd Tainted: G           O       6.12.87 #0
+[ 1517.890485] Tainted: [O]=OOT_MODULE
+[ 1517.890489] Hardware name: Xiaomi Redmi AX1800 (DT)
+[ 1517.890495] Call trace:
+[ 1517.890499]  dump_backtrace.part.0+0xbc/0xc8
+[ 1517.890517]  show_stack+0x18/0x24
+[ 1517.890528]  dump_stack_lvl+0x5c/0x7c
+[ 1517.890542]  dump_stack+0x18/0x24
+[ 1517.890553]  dump_header+0x40/0x11c
+[ 1517.890566]  oom_kill_process+0x25c/0x2c4
+[ 1517.890579]  out_of_memory+0xc8/0x310
+[ 1517.890591]  __alloc_pages_noprof+0x684/0xc5c
+[ 1517.890605]  __folio_alloc_noprof+0x14/0x30
+[ 1517.890616]  vma_alloc_zeroed_movable_folio+0x24/0x38
+[ 1517.890629]  do_wp_page+0x240/0xb78
+[ 1517.890640]  __handle_mm_fault+0x4d8/0xae0
+[ 1517.890650]  handle_mm_fault+0xa0/0x1e0
+[ 1517.890660]  do_page_fault+0xc0/0x4e0
+[ 1517.890671]  do_mem_abort+0x40/0x94
+[ 1517.890681]  el1_abort+0x40/0x64
+[ 1517.890693]  el1h_64_sync_handler+0xa4/0xe4
+[ 1517.890700]  el1h_64_sync+0x68/0x6c
+[ 1517.890708]  __arch_copy_to_user+0xa8/0x240
+[ 1517.890719]  simple_copy_to_iter+0x44/0x64
+[ 1517.890732]  __skb_datagram_iter+0x78/0x274
+[2026-10-18 04:41:11] cyc=26 cable=OK relay=OK U=516 F=13432 A=12888 K=0 G=1 S=1 R=1 SIG=-35 NET=1
+[2026-10-18 04:41:11] !! REBOOT detectado (uptime 1576 -> 516)
+Sun Oct 18 03:55:02 2026 user.notice guard: rota default via STA restaurada
+--guard-reboots-file--
+1792294870
+[2026-10-18 04:42:12]    pos-reboot: ping cable=0
+[2026-10-18 04:51:20] cyc=27 cable=OK relay=OK U=55 F=13384 A=26812 K=0 G=1 S=1 R=1 SIG=-36 NET=0
+[2026-10-18 04:51:20] !! REBOOT detectado (uptime 516 -> 55)
+--guard-reboots-file--
+1792294870
+[2026-10-18 04:52:21]    pos-reboot: ping cable=0
+[2026-10-18 05:01:23] cyc=28 cable=OK relay=OK U=664 F=8024 A=15956 K=0 G=1 S=1 R=1 SIG=-36 NET=1
+[2026-10-18 05:10:26] cyc=29 cable=OK relay=OK U=1207 F=12432 A=11404 K=0 G=1 S=1 R=1 SIG=-36 NET=1
+[2026-10-18 05:19:32] cyc=30 cable=OK relay=OK U=1750 F=6156 A=4356 K=6 G=1 S=1 R=1 SIG=-35 NET=1
+[2026-10-18 05:19:32] !! OOM ALERT: kills 0 -> 6
+[ 1740.283204] Mem-Info:
+[ 1740.382151] active_anon:665 inactive_anon:523 isolated_anon:0
+[ 1740.382151]  active_file:147 inactive_file:296 isolated_file:0
+--
+[ 1751.318468] wget invoked oom-killer: gfp_mask=0x140dca(GFP_HIGHUSER_MOVABLE|__GFP_COMP|__GFP_ZERO), order=0, oom_score_adj=500
+[ 1751.318543] CPU: 2 UID: 0 PID: 6575 Comm: wget Tainted: G           O       6.12.87 #0
+[ 1751.318556] Tainted: [O]=OOT_MODULE
+[ 1751.318560] Hardware name: Xiaomi Redmi AX1800 (DT)
+[ 1751.318565] Call trace:
+[ 1751.318569]  dump_backtrace.part.0+0xbc/0xc8
+[ 1751.318589]  show_stack+0x18/0x24
+[ 1751.318600]  dump_stack_lvl+0x5c/0x7c
+[ 1751.318615]  dump_stack+0x18/0x24
+[ 1751.318626]  dump_header+0x40/0x11c
+[ 1751.318639]  oom_kill_process+0x25c/0x2c4
+[ 1751.318653]  out_of_memory+0xc8/0x310
+[ 1751.318664]  __alloc_pages_noprof+0x684/0xc5c
+[ 1751.318679]  __folio_alloc_noprof+0x14/0x30
+[ 1751.318690]  vma_alloc_zeroed_movable_folio+0x24/0x38
+[ 1751.318703]  __handle_mm_fault+0x670/0xae0
+[ 1751.318716]  handle_mm_fault+0xa0/0x1e0
+[ 1751.318726]  do_page_fault+0xc0/0x4e0
+[ 1751.318737]  do_translation_fault+0x98/0xa8
+[ 1751.318747]  do_mem_abort+0x40/0x94
+[ 1751.318757]  el1_abort+0x40/0x64
+[ 1751.318769]  el1h_64_sync_handler+0xa4/0xe4
+[ 1751.318776]  el1h_64_sync+0x68/0x6c
+[ 1751.318784]  __arch_copy_to_user+0x1b0/0x240
+[ 1751.318796]  copy_page_to_iter+0xd8/0x140
+[ 1751.318807]  filemap_read+0x1a0/0x340
+[2026-10-18 05:20:08]    leve: cabo=8.1Mbps relay=Mbps luci_cabo=000 luci_relay=000
+[2026-10-18 05:29:11] cyc=31 cable=OK relay=OK U=535 F=12132 A=11244 K=0 G=1 S=1 R=1 SIG=-36 NET=1
+[2026-10-18 05:29:11] !! REBOOT detectado (uptime 1750 -> 535)
+Sun Oct 18 03:55:05 2026 user.notice guard: rota default via STA restaurada
+--guard-reboots-file--
+1792294870
+[2026-10-18 05:30:13]    pos-reboot: ping cable=0
+[2026-10-18 05:39:15] cyc=32 cable=OK relay=OK U=1139 F=9280 A=8224 K=0 G=1 S=1 R=1 SIG=-36 NET=1
+[2026-10-18 05:48:18] cyc=33 cable=OK relay=OK U=1681 F=8508 A=7080 K=0 G=1 S=1 R=1 SIG=-36 NET=1
+[2026-10-18 05:57:26] cyc=34 cable=OK relay=OK U=208 F=10596 A=22364 K=0 G=1 S=1 R=1 SIG=-34 NET=0
+[2026-10-18 05:57:26] !! REBOOT detectado (uptime 1681 -> 208)
+--guard-reboots-file--
+1792294870
+[2026-10-18 05:58:27]    pos-reboot: ping cable=0
+[2026-10-18 06:07:30] cyc=35 cable=OK relay=OK U=817 F=8448 A=14024 K=0 G=1 S=1 R=1 SIG=-36 NET=1
+[2026-10-18 06:16:33] cyc=36 cable=OK relay=OK U=1360 F=11616 A=9696 K=0 G=1 S=1 R=1 SIG=-35 NET=1
+[2026-10-18 06:16:35]    leve: cabo=227.4Mbps relay=23.6Mbps luci_cabo=200 luci_relay=200
+[2026-10-18 06:25:42] cyc=37 cable=OK relay=OK U=134 F=10124 A=20832 K=0 G=1 S=1 R=1 SIG=-35 NET=0
+[2026-10-18 06:25:42] !! REBOOT detectado (uptime 1360 -> 134)
+--guard-reboots-file--
+1792294870
+[2026-10-18 06:26:44]    pos-reboot: ping cable=0
+[2026-10-18 06:35:46] cyc=38 cable=OK relay=OK U=743 F=10864 A=15124 K=0 G=1 S=1 R=1 SIG=-35 NET=1
+[2026-10-18 06:44:49] cyc=39 cable=OK relay=OK U=1286 F=8416 A=11320 K=0 G=1 S=1 R=1 SIG=-36 NET=1
+[2026-10-18 06:53:53] cyc=40 cable=OK relay=OK U=1828 F=6704 A=6252 K=0 G=1 S=1 R=1 SIG=-36 NET=1
+[2026-10-18 07:03:00] cyc=41 cable=OK relay=OK U=101 F=10292 A=23308 K=0 G=1 S=1 R=1 SIG=-36 NET=0
+[2026-10-18 07:03:00] !! REBOOT detectado (uptime 1828 -> 101)
+--guard-reboots-file--
+1792294870
+[2026-10-18 07:04:02]    pos-reboot: ping cable=0
+[2026-10-18 07:13:04] cyc=42 cable=OK relay=OK U=710 F=9132 A=16196 K=0 G=1 S=1 R=1 SIG=-36 NET=1
+[2026-10-18 07:13:05]    leve: cabo=114.2Mbps relay=103.2Mbps luci_cabo=200 luci_relay=200
+[2026-10-18 07:22:08] cyc=43 cable=OK relay=OK U=1254 F=10016 A=8308 K=0 G=1 S=1 R=1 SIG=-37 NET=1
+[2026-10-18 07:31:16] cyc=44 cable=OK relay=OK U=333 F=13856 A=20368 K=0 G=1 S=1 R=1 SIG=-35 NET=0
+[2026-10-18 07:31:16] !! REBOOT detectado (uptime 1254 -> 333)
+--guard-reboots-file--
+1792294870
+[2026-10-18 07:32:17]    pos-reboot: ping cable=0
+[2026-10-18 07:41:20] cyc=45 cable=OK relay=OK U=942 F=14876 A=15556 K=0 G=1 S=1 R=1 SIG=-36 NET=1
+[2026-10-18 07:50:23] cyc=46 cable=OK relay=OK U=1485 F=10464 A=10968 K=0 G=1 S=1 R=1 SIG=-35 NET=1
+[2026-10-18 07:59:30] cyc=47 cable=OK relay=OK U=76 F=10564 A=20356 K=0 G=1 S=1 R=1 SIG=-35 NET=0
+[2026-10-18 07:59:30] !! REBOOT detectado (uptime 1485 -> 76)
+--guard-reboots-file--
+1792294870
+[2026-10-18 08:00:31]    pos-reboot: ping cable=0
+[2026-10-18 08:09:34] cyc=48 cable=OK relay=OK U=685 F=11648 A=10584 K=0 G=1 S=1 R=1 SIG=-35 NET=1
+[2026-10-18 08:09:35]    leve: cabo=227.1Mbps relay=100.3Mbps luci_cabo=200 luci_relay=200
+[2026-10-18 08:18:35] === overnight_mon fim ===
